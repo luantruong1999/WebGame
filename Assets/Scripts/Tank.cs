@@ -94,15 +94,21 @@ public abstract class Tank : MonoBehaviour
     public virtual void TakenDame(int dame)
     {
         curHp -= dame;
+        if (curHp <= 0)
+        {
+            Die();
+        }
     }
 
-    public void Die()
+    private void Die()
     {
-        
+        gameObject.SetActive(false);
     }
 
-    public Team GetTeam()
+    protected virtual void OnDisable()
     {
-        return team;
+        GameObject tankDieEff = ObjectPooler.Instance.GetPoolObj("TankDie");
+        tankDieEff.transform.position = gameObject.transform.position;
+        tankDieEff.gameObject.SetActive(true);
     }
 }

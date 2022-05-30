@@ -53,5 +53,6 @@ public class Bullet : MonoBehaviour
         {
             tankcol.TakenDame(1);
         }
+        if(col.gameObject.tag=="Gach") col.gameObject.SetActive(false);
     }
 }

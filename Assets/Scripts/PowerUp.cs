@@ -28,6 +28,8 @@ public class PowerUp : MonoBehaviour
     public SpritePower[] spritePowers;
     public static UnityEvent timeStop = new UnityEvent();
     public Player player;
+    public static UnityEvent dietEnemy = new UnityEvent();
+    public ThanhBaoVe thanhBaoVe;
     
 
     private void Awake()
@@ -60,7 +62,7 @@ public class PowerUp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("1");
+        
         switch (power)
         {
             case Power.TimeStop:
@@ -69,7 +71,15 @@ public class PowerUp : MonoBehaviour
             case Power.BatTu:
                 player.StartBatTu();
                 break;
+            case Power.DietEnemy:
+                dietEnemy?.Invoke();
+                break;
+            case Power.LoCot:
+                thanhBaoVe.StartSatBaoVe();
+                break;
+            case Power.ThemMang:
+                break;
         }
-    
+        gameObject.SetActive(false);
     }
 }

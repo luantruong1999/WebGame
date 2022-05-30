@@ -19,12 +19,16 @@ public class Enemy : Tank
         protected virtual void OnEnable()
         {
                 curVector=Vector2.down;
+                isMoving = false;
                 PowerUp.timeStop.AddListener(StartTimeStop);
+                PowerUp.dietEnemy.AddListener(()=>gameObject.SetActive(false));
         }
 
-        protected virtual void OnDisable()
+        protected override void OnDisable()
         {
+                base.OnDisable();
                 PowerUp.timeStop.RemoveListener(StartTimeStop);
+                PowerUp.dietEnemy.RemoveListener(()=>gameObject.SetActive(false));
         }
 
         private void Update()
