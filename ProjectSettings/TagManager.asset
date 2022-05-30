@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Gach
+  - Sat
   layers:
   - Default
   - TransparentFX
@@ -14,8 +16,8 @@ TagManager:
   - Enemy
   - BulletPlayer
   - BulletEnemy
-  - 
-  - 
+  - Eviroment
+  - PowerUp
   - 
   - 
   - 
@@ -50,7 +52,7 @@ TagManager:
   - name: Tank
     uniqueID: 4286151553
     locked: 0
-  - name: New Layer
+  - name: Effect
     uniqueID: 2895923863
     locked: 0
   - name: New Layer
