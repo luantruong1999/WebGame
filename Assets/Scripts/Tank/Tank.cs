@@ -107,6 +107,7 @@ public abstract class Tank : MonoBehaviour
         {
             case Team.Player:
                 gameObject.SetActive(false);
+                GameManager.Instance.Lives--;
                 if (GameManager.Instance.Lives < 0)
                 {
                     Debug.Log("GameOver");

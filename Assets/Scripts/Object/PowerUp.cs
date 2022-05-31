@@ -16,7 +16,6 @@ public class PowerUp : MonoBehaviour
         TimeStop,
     }
     [System.Serializable]
-
     public class SpritePower
     {
         public Power power;
@@ -79,6 +78,7 @@ public class PowerUp : MonoBehaviour
                 thanhBaoVe.StartSatBaoVe();
                 break;
             case Power.ThemMang:
+                GameManager.Instance.AddLive();
                 break;
         }
         gameObject.SetActive(false);

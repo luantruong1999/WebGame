@@ -22,7 +22,7 @@ public class Enemy : Tank
                 isMoving = false;
                 GameManager.Instance.EnemyActive++;
                 PowerUp.timeStop.AddListener(StartTimeStop);
-                PowerUp.dietEnemy.AddListener(()=>gameObject.SetActive(false));
+                PowerUp.dietEnemy.AddListener(()=>Destroy(gameObject));
         }
 
         protected void OnDestroy()

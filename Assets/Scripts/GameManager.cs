@@ -15,22 +15,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private GameObject powerUp;
     private GameObject GachLvl;
-
     private int enemyActive;
-
     public int EnemyActive
     {
         get => enemyActive;
         set => enemyActive = value;
     }
-
-    
-
     private int curEnemy;
     public int CurEnemy => curEnemy;
 
     private int lives;
-    public int Lives => lives;
+    public int Lives
+    {
+        get { return lives; }
+        set => lives = value;
+    }
 
     private Dictionary<EnemyType, GameObject> enemyObjs = new Dictionary<EnemyType, GameObject>();
     private bool spawned;
@@ -45,14 +44,13 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        GameObject lvl = Instantiate(level.LevelDatas[level.curLv].LevelObject);
-        GachLvl = lvl.transform.GetChild(0).Find("Gach").gameObject;
     }
 
     private void Start()
     {
-        lives = 3;
+        GameObject lvl = Instantiate(level.LevelDatas[Value.Instance.curLvl].LevelObject);
+        GachLvl = lvl.transform.GetChild(0).Find("Gach").gameObject;
+        lives =Value.Instance.curLive;
         for (int i = 0; i < enemyData.enemyObjects.Length ; i++)
         {
             enemyObjs.Add(enemyData.enemyObjects[i].enemyType,enemyData.enemyObjects[i].EnemyObj);
@@ -72,14 +70,13 @@ public class GameManager : MonoBehaviour
 
     public void SpawnPlayer()
     {
-        lives--;
         UIManager.Instance.UpdateLiveUI(lives);
         spawnPlayer.SetActive(true);
     }
 
     public void OnEnemySpawn()
     {
-        GameObject Enemy = enemyObjs[level.LevelDatas[level.curLv].enemyTypes[curEnemy]];
+        GameObject Enemy = enemyObjs[level.LevelDatas[Value.Instance.curLvl].enemyTypes[curEnemy]];
         Instantiate(Enemy, spawnEnemy.transform.position,Quaternion.identity);
         curEnemy++;
     }
@@ -87,8 +84,8 @@ public class GameManager : MonoBehaviour
     IEnumerator Spawn()
     {
         spawned = true;
-        Vector3 RandomSpawnPos = level.LevelDatas[level.curLv]
-            .spawmEnemyPos[Random.Range(0, level.LevelDatas[level.curLv].spawmEnemyPos.Count)];
+        Vector3 RandomSpawnPos = level.LevelDatas[Value.Instance.curLvl]
+            .spawmEnemyPos[Random.Range(0, level.LevelDatas[Value.Instance.curLvl].spawmEnemyPos.Count)];
         spawnEnemy.transform.position = RandomSpawnPos;
         spawnEnemy.SetActive(true);
         yield return new WaitForSeconds(1f);
@@ -110,13 +107,23 @@ public class GameManager : MonoBehaviour
 
     public void NextLv()
     {
-        level.curLv++;
+        Value.Instance.curLvl++;
+        Value.Instance.curLive = lives;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnDestroy()
     {
         StopAllCoroutines();
-        Instance = null;
+    }
+
+    public void AddLive()
+    {
+        if(lives<3) lives++;
+    }
+
+    public void GameOver()
+    {
+        
     }
 }

@@ -19,12 +19,8 @@ public class Data
     
 }
 
-
 [CreateAssetMenu(menuName = "Data/Level",fileName = "Level")]
 public class Level : ScriptableObject
 {
     public List<Data> LevelDatas;
-    public int curLv;
-
-
 }
