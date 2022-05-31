@@ -1,22 +1,39 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     [SerializeField] private Level level;
     [SerializeField] private EnemyObj enemyData;
-    [SerializeField] private Transform spawnPlayer;
+    [SerializeField] private GameObject spawnPlayer;
+    [SerializeField] private GameObject spawnEnemy;
     [SerializeField] private Player player;
+    [SerializeField] private GameObject powerUp;
+    private GameObject GachLvl;
 
+    private int enemyActive;
+
+    public int EnemyActive
+    {
+        get => enemyActive;
+        set => enemyActive = value;
+    }
+
+    
 
     private int curEnemy;
-    private int curLevel;
+    public int CurEnemy => curEnemy;
+
+    private int lives;
+    public int Lives => lives;
+
     private Dictionary<EnemyType, GameObject> enemyObjs = new Dictionary<EnemyType, GameObject>();
+    private bool spawned;
 
     private void Awake()
     {
@@ -28,28 +45,78 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        GameObject lvl = Instantiate(level.LevelDatas[level.curLv].LevelObject);
+        GachLvl = lvl.transform.GetChild(0).Find("Gach").gameObject;
     }
 
     private void Start()
     {
+        lives = 3;
         for (int i = 0; i < enemyData.enemyObjects.Length ; i++)
         {
             enemyObjs.Add(enemyData.enemyObjects[i].enemyType,enemyData.enemyObjects[i].EnemyObj);
         }
+        StartCoroutine(Spawn());
+        SpawnPlayer();
+        InvokeRepeating("SpawnPower",20f,20f);
+        UIManager.Instance.Push(20);
+        
+    }
+
+    public void OnSpawnPlayer()
+    {
+        player.gameObject.transform.position = spawnPlayer.transform.position;
+        player.gameObject.SetActive(true);
     }
 
     public void SpawnPlayer()
     {
-        player.gameObject.transform.position = spawnPlayer.position;
-        player.gameObject.SetActive(true);
+        lives--;
+        UIManager.Instance.UpdateLiveUI(lives);
+        spawnPlayer.SetActive(true);
     }
 
-    public void SpawnEnemy()
+    public void OnEnemySpawn()
     {
-        Vector3 RandomSpawnPos = level.LevelDatas[curLevel]
-            .spawmEnemyPos[Random.Range(0, level.LevelDatas[curLevel].spawmEnemyPos.Count)];
-        GameObject Obj = enemyObjs[level.LevelDatas[curLevel].enemyTypes[curEnemy]];
-        Instantiate(Obj, RandomSpawnPos,Quaternion.identity);
+        GameObject Enemy = enemyObjs[level.LevelDatas[level.curLv].enemyTypes[curEnemy]];
+        Instantiate(Enemy, spawnEnemy.transform.position,Quaternion.identity);
+        curEnemy++;
     }
-    
+
+    IEnumerator Spawn()
+    {
+        spawned = true;
+        Vector3 RandomSpawnPos = level.LevelDatas[level.curLv]
+            .spawmEnemyPos[Random.Range(0, level.LevelDatas[level.curLv].spawmEnemyPos.Count)];
+        spawnEnemy.transform.position = RandomSpawnPos;
+        spawnEnemy.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        if (enemyActive < 4 && curEnemy<20) StartCoroutine(Spawn());
+        spawned = false;
+    }
+
+    public void SpawnCourotine()
+    {
+        if(!gameObject) return;
+        if (!spawned && curEnemy<20) StartCoroutine(Spawn());
+    }
+
+    public void SpawnPower()
+    {
+        powerUp.transform.position = GachLvl.transform.GetChild(Random.Range(0, GachLvl.transform.childCount)).position;
+        powerUp.SetActive(true);
+    }
+
+    public void NextLv()
+    {
+        level.curLv++;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        Instance = null;
+    }
 }

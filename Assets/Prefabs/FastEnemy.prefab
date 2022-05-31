@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 277894771952914908}
   - component: {fileID: 277894771952914909}
   - component: {fileID: 277894771952914906}
+  - component: {fileID: 8924945717112285817}
   m_Layer: 6
   m_Name: FastEnemy
   m_TagString: Untagged
@@ -145,8 +146,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
-  attackDelay: 0.1
   maxHp: 0
   delayAttack: 0.1
   canAttack: 1
   enemyAttack: 1
+--- !u!95 &8924945717112285817
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277894771952914907}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 688d5d5bce79acc4db37bfe13021c100, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

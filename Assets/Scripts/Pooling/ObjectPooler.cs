@@ -42,6 +42,7 @@ public class ObjectPooler : MonoBehaviour
     {
         for (int i = 0; i < pooledObject.Count; i++)
         {
+            if (!pooledObject[i]) return null;
             if (!pooledObject[i].activeInHierarchy && pooledObject[i].name.StartsWith(name))
             {
                 return pooledObject[i];

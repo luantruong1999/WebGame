@@ -11,9 +11,9 @@ public class HeavyEnemy : Enemy
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    protected override void OnEnable()
+    protected override void Start()
     {
-        base.OnEnable();
+        base.Start();
         maxHp = 4;
         spriteRenderer.color=Color.green;
     }

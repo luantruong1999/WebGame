@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 public class Player : Tank
@@ -13,6 +12,11 @@ public class Player : Tank
         base.Awake();
         playerController = GetComponent<PlayerController>();
         team = Team.Player;
+    }
+
+    private void OnEnable()
+    {
+        StartBatTu();
     }
 
     private void Update()
@@ -34,6 +38,12 @@ public class Player : Tank
                 StartCoroutine(Move(playerController.InputMove));
             }
         }
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        isMoving = false;
     }
 
     IEnumerator BatTu()

@@ -16,17 +16,25 @@ public class Enemy : Tank
                 team = Team.Enemy;
         }
 
-        protected virtual void OnEnable()
+        protected virtual void Start()
         {
                 curVector=Vector2.down;
                 isMoving = false;
+                GameManager.Instance.EnemyActive++;
                 PowerUp.timeStop.AddListener(StartTimeStop);
                 PowerUp.dietEnemy.AddListener(()=>gameObject.SetActive(false));
         }
 
-        protected override void OnDisable()
+        protected void OnDestroy()
         {
-                base.OnDisable();
+                if(GameManager.Instance==null) return;
+                GameManager.Instance.EnemyActive--;
+                GameManager.Instance.SpawnCourotine();
+                UIManager.Instance.DestroyEnemy();
+                if (GameManager.Instance.EnemyActive == 0 && GameManager.Instance.CurEnemy >= 20)
+                { 
+                        Debug.Log("win");
+                }
                 PowerUp.timeStop.RemoveListener(StartTimeStop);
                 PowerUp.dietEnemy.RemoveListener(()=>gameObject.SetActive(false));
         }

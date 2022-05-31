@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3019070908104951517}
   - component: {fileID: 3019070908104951516}
   - component: {fileID: 3019070908104951515}
+  - component: {fileID: 2236718545200157950}
   m_Layer: 6
   m_Name: HeavyEnemy
   m_TagString: Untagged
@@ -149,3 +150,22 @@ MonoBehaviour:
   delayAttack: 0.1
   canAttack: 1
   enemyAttack: 1
+--- !u!95 &2236718545200157950
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3019070908104951514}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6acd1eab88bbe144eb2fa0dd76e0fc7b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

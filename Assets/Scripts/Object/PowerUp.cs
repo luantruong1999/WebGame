@@ -48,6 +48,7 @@ public class PowerUp : MonoBehaviour
             }
         }
         InvokeRepeating("Fade",0.5f,0.5f);
+        Invoke("Dis",8f);
     }
 
     private void OnDisable()
@@ -80,6 +81,11 @@ public class PowerUp : MonoBehaviour
             case Power.ThemMang:
                 break;
         }
+        gameObject.SetActive(false);
+    }
+
+    public void Dis()
+    {
         gameObject.SetActive(false);
     }
 }

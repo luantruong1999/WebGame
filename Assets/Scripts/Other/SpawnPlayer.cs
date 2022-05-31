@@ -6,6 +6,7 @@ public class SpawnPlayer : MonoBehaviour
 {
     public void SpawnPlayerPos()
     {
-        GameManager.Instance.SpawnPlayer();
+        GameManager.Instance.OnSpawnPlayer();
+        gameObject.SetActive(false);
     }
 }

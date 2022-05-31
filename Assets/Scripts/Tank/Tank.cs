@@ -102,13 +102,28 @@ public abstract class Tank : MonoBehaviour
 
     private void Die()
     {
-        gameObject.SetActive(false);
+        
+        switch (team)
+        {
+            case Team.Player:
+                gameObject.SetActive(false);
+                if (GameManager.Instance.Lives < 0)
+                {
+                    Debug.Log("GameOver");
+                    return;
+                }
+                GameManager.Instance.SpawnPlayer();
+                break;
+            case Team.Enemy:
+                Destroy(gameObject);
+                break;
+        }
     }
 
     protected virtual void OnDisable()
     {
         GameObject tankDieEff = ObjectPooler.Instance.GetPoolObj("TankDie");
-        tankDieEff.transform.position = gameObject.transform.position;
-        tankDieEff.gameObject.SetActive(true);
+        if(tankDieEff)tankDieEff.transform.position = gameObject.transform.position;
+        tankDieEff?.gameObject.SetActive(true);
     }
 }

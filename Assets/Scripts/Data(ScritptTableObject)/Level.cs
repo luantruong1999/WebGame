@@ -24,6 +24,7 @@ public class Data
 public class Level : ScriptableObject
 {
     public List<Data> LevelDatas;
+    public int curLv;
 
-    
+
 }
