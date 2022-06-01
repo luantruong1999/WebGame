@@ -60,7 +60,8 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("SpawnPower",20f,20f);
         UIManager.Instance.Push(20);
         UIManager.Instance.UpdateLvL(Value.Instance.curLvl+1);
-        
+        Application.targetFrameRate = 60;
+
     }
 
     public void OnSpawnPlayer()
