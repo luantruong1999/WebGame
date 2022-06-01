@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
         SpawnPlayer();
         InvokeRepeating("SpawnPower",20f,20f);
         UIManager.Instance.Push(20);
+        UIManager.Instance.UpdateLvL(Value.Instance.curLvl+1);
         
     }
 
@@ -86,10 +87,13 @@ public class GameManager : MonoBehaviour
         spawned = true;
         Vector3 RandomSpawnPos = level.LevelDatas[Value.Instance.curLvl]
             .spawmEnemyPos[Random.Range(0, level.LevelDatas[Value.Instance.curLvl].spawmEnemyPos.Count)];
-        spawnEnemy.transform.position = RandomSpawnPos;
-        spawnEnemy.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        if (enemyActive < 4 && curEnemy<20) StartCoroutine(Spawn());
+        if (spawnEnemy)
+        {
+            spawnEnemy.transform.position = RandomSpawnPos;
+            spawnEnemy.SetActive(true); 
+            yield return new WaitForSeconds(1f);
+            if (enemyActive < 4 && curEnemy<20) StartCoroutine(Spawn());
+        }
         spawned = false;
     }
 
@@ -105,9 +109,15 @@ public class GameManager : MonoBehaviour
         powerUp.SetActive(true);
     }
 
-    public void NextLv()
+    public void Winner()
     {
         Value.Instance.curLvl++;
+        //luoi lam bang socre,game het level reload lai,sau co sua lai code thi them level o data/level,con day la cai sau khi qua het level
+        if (Value.Instance.curLvl > level.LevelDatas.Count)
+        {
+            ReloadGame();
+            return;
+        }
         Value.Instance.curLive = lives;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -124,6 +134,17 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        
+        StartCoroutine(ReloadGame());
+        Time.timeScale=0f;
+        UIManager.Instance.GameOver();
     }
+
+    IEnumerator ReloadGame()
+    {
+        yield return new WaitForSecondsRealtime(5f);
+        SceneManager.LoadScene(0);
+        Value.Instance.ReloadValue();
+        Time.timeScale = 1f;
+    }
+    
 }

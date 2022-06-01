@@ -18,7 +18,7 @@ public class Enemy : Tank
 
         protected virtual void Start()
         {
-                curVector=Vector2.down;
+                StartCoroutine(RandomVector());
                 isMoving = false;
                 GameManager.Instance.EnemyActive++;
                 PowerUp.timeStop.AddListener(StartTimeStop);
@@ -34,6 +34,7 @@ public class Enemy : Tank
                 if (GameManager.Instance.EnemyActive == 0 && GameManager.Instance.CurEnemy >= 20)
                 { 
                         Debug.Log("win");
+                        GameManager.Instance.Winner();
                 }
                 PowerUp.timeStop.RemoveListener(StartTimeStop);
                 PowerUp.dietEnemy.RemoveListener(()=>gameObject.SetActive(false));

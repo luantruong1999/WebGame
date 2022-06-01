@@ -3,16 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
+    
     public static UIManager Instance;
     [SerializeField] private Transform enemyParent;
     [SerializeField] private GameObject enemyImage;
-    [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI livetext;
+    [SerializeField] private TextMeshProUGUI LvlText;
+    [SerializeField] private TextMeshProUGUI lvlInGameText;
 
 
     private Stack<GameObject> enemyImages = new Stack<GameObject>();
+    private Animator animator;
 
 
     private void Awake()
@@ -21,6 +26,8 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        animator = GetComponent<Animator>();
     }
 
     public void Push(int amount)
@@ -38,6 +45,17 @@ public class UIManager : MonoBehaviour
 
     public void UpdateLiveUI(int lives)
     {
-        text.text = lives.ToString();
+        livetext.text = lives.ToString();
+    }
+
+    public void UpdateLvL(int lvl)
+    {
+        LvlText.text = "Level " + lvl.ToString();
+        lvlInGameText.text = lvl.ToString();
+    }
+
+    public void GameOver()
+    {
+        animator.Play("GameOver");
     }
 }

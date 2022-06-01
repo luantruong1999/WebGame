@@ -61,7 +61,7 @@ public class Bullet : MonoBehaviour
             obj.transform.position = col.gameObject.transform.position+new Vector3(2,-1,0);
             obj.transform.localScale=Vector3.one;
             obj.SetActive(true);
-            Debug.Log("GameOver");
+            GameManager.Instance.GameOver();
         }
         
     }

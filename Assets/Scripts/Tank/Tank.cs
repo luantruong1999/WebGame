@@ -8,7 +8,6 @@ public enum Team
     Player,
     Enemy,
 }
-
 public abstract class Tank : MonoBehaviour
 {
     [SerializeField] protected float speed;
@@ -110,7 +109,7 @@ public abstract class Tank : MonoBehaviour
                 GameManager.Instance.Lives--;
                 if (GameManager.Instance.Lives < 0)
                 {
-                    Debug.Log("GameOver");
+                    GameManager.Instance.GameOver();
                     return;
                 }
                 GameManager.Instance.SpawnPlayer();

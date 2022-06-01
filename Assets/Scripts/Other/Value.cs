@@ -19,9 +19,15 @@ public class Value : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        curLive = 3;
-        curLvl = 0;
+
+        ReloadValue();
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void ReloadValue()
+    {
+        curLive = 3;
+        curLvl = 0; 
     }
 
     
